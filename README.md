@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Real-Time Student Attention Monitoring System
 
 A real-time AI-based system to monitor student attention, engagement, and confusion during lectures, with an interactive dashboard for teachers.
@@ -101,3 +102,7 @@ Advanced head/eye gaze tracking
 Analytics export for teachers (PDF / Excel)
 
 Real-time audio/lecture content integration for deeper insights
+=======
+# StudentAttentionMonitoring
+This project provides a real-time solution for monitoring student attention during lectures using webcam feeds.  It tracks attention, engagement, and confusion per second, displays live metrics on an interactive dashboard,  and stores minimal numeric data for analysis. Ideal for teachers to get actionable insights and improve learning outcomes.
+>>>>>>> 3c311a0ce76cebe09408cde6e4830458db7087e3
