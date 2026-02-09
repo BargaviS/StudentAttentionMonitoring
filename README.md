@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/dashboard_preview.png" width="800">
+</p>
+
 # 👁️ Real-Time Student Attention Monitoring System
 
 An AI-powered real-time system that analyzes student attention, engagement, and confusion using webcam input and computer vision. The system provides live insights through an interactive dashboard to help educators improve teaching effectiveness.
