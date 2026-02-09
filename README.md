@@ -1,108 +1,183 @@
-<<<<<<< HEAD
-Real-Time Student Attention Monitoring System
+# 👁️ Real-Time Student Attention Monitoring System
 
-A real-time AI-based system to monitor student attention, engagement, and confusion during lectures, with an interactive dashboard for teachers.
+An AI-powered real-time system that analyzes student attention, engagement, and confusion using webcam input and computer vision. The system provides live insights through an interactive dashboard to help educators improve teaching effectiveness.
 
-1️⃣ Problem
+---
 
-Teachers often cannot know if students are attentive or confused during lectures.
-This leads to:
+## 🚀 Overview
 
-Disengagement
+Traditional classrooms lack real-time feedback on student engagement. This project solves that problem by using computer vision to monitor attention continuously and present actionable insights via a live dashboard.
 
-Poor learning outcomes
+The system processes webcam frames in real time, predicts attention levels, and displays metrics instantly — without storing raw video.
 
-Ineffective teaching strategies
+---
 
-There is no simple, real-time method to measure student attention in classrooms, making timely intervention impossible.
+## ✨ Key Features
 
-2️⃣ Solution
+- Real-time attention monitoring using webcam
+- Live interactive dashboard built with Streamlit
+- Per-second attention, engagement, and confusion prediction
+- Color-coded alerts for easy understanding
+- Minimal storage (CSV metrics only, no video saved)
+- Start and stop monitoring anytime
+- Lightweight and efficient real-time processing
 
-This project provides a real-time monitoring system that:
+---
 
-Detects student faces, head orientation, and posture using webcam feeds.
+## 🧠 How It Works
 
-Tracks attention, engagement, and confusion per second.
+1. Captures live webcam frames
+2. Detects face using computer vision
+3. Analyzes attention indicators
+4. Computes attention and engagement metrics
+5. Displays live dashboard with real-time updates
+6. Stores numeric metrics for analysis
 
-Displays a live interactive dashboard with charts and color-coded alerts.
+---
 
-Stores only minimal numeric metrics in a CSV file for later analysis.
+## 📊 Dashboard Features
 
-3️⃣ Key Features
+- Live attention score visualization
+- Continuous attention tracking
+- Confusion level monitoring
+- Real-time alerts
+- Metrics table with timestamps
 
-✅ Real-time attention prediction per second
+---
 
-✅ Interactive Streamlit dashboard for live visualization
+## 📁 Project Structure
 
-✅ Color-coded alert system:
-
-🟢 High Attention
-
-🟡 Medium Attention
-
-🔴 Low Attention
-
-✅ Minimal storage: only numeric CSV, no raw videos
-
-✅ Stop monitoring anytime via dashboard
-
-✅ Demo-ready, easy for anyone to run
-
-4️⃣ Folder Structure
+```
 StudentAttentionMonitoring/
 │
-├── data/                     # Metrics CSV only
+├── data/
 │   └── real_time_student_metrics.csv
-├── src/                      # Source code
-│   ├── streamlit_app.py      # Interactive dashboard
-│   ├── capture_analyze.py    # Webcam + attention logic
-│   └── utils.py              # Helper functions
-├── notebooks/                # Optional experiments / demo
-│   └── demo.ipynb
-├── requirements.txt          # Dependencies
-├── .gitignore                # Ignore unnecessary files
-└── README.md                 # Project documentation
+│
+├── src/
+│   ├── streamlit_app.py
+│   ├── capture_analyze.py
+│   ├── analyzer.py
+│   ├── dashboard.py
+│   ├── utils.py
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
-5️⃣ Installation
+---
 
-Clone the repository:
+## ⚙️ Installation
 
-git clone https://github.com/<username>/StudentAttentionMonitoring.git
+### 1. Clone repository
+
+```bash
+git clone https://github.com/BargaviS/StudentAttentionMonitoring.git
 cd StudentAttentionMonitoring
-6️⃣ Usage
+```
 
-Run the Streamlit dashboard:
+### 2. Create virtual environment
 
+```bash
+python -m venv venv
+```
+
+Activate environment:
+
+Windows:
+```bash
+venv\Scripts\activate
+```
+
+Mac/Linux:
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Run the Application
+
+```bash
 streamlit run src/streamlit_app.py
+```
 
+Then open browser:
 
-Enter class duration (minutes)
+```
+http://localhost:8501
+```
 
-Click Start Monitoring → live dashboard appears
+Click **Start Monitoring** to begin real-time analysis.
 
-Metrics update every second, showing attention & confusion levels
+---
 
-Click Stop Monitoring anytime
+## 📈 Example Output
 
-Metrics are automatically saved in data/real_time_student_metrics.csv
+The system displays:
 
-7️⃣ Demo / Visualization
+- Attention Level: High / Medium / Low
+- Continuous Attention Duration
+- Confusion Level
+- Real-time attention graph
+- Live metrics table
 
-Live line chart: Continuous attention vs. distraction
+---
 
-Latest metrics table: Last 5 seconds summary
+## 🎯 Applications
 
-Alert card: Color-coded attention alert for teachers
-8️⃣ Future Improvements
+- Smart classrooms
+- Online learning platforms
+- Student engagement analysis
+- Education research
+- Training and learning environments
 
-Multi-student monitoring on a single dashboard
+---
 
-Advanced head/eye gaze tracking
+## 🔮 Future Improvements
 
-Analytics export for teachers (PDF / Excel)
+- Multi-student monitoring
+- Deep learning attention models
+- Cloud deployment
+- Teacher analytics reports
+- Mobile support
 
-Real-time audio/lecture content integration for deeper insights
-=======
-# StudentAttentionMonitoring
-This project provides a real-time solution for monitoring student attention during lectures using webcam feeds.  It tracks attention, engagement, and confusion per second, displays live metrics on an interactive dashboard,  and stores minimal numeric data for analysis. Ideal for teachers to get actionable insights and improve learning outcomes.
->>>>>>> 3c311a0ce76cebe09408cde6e4830458db7087e3
+---
+
+## 🛠️ Technologies Used
+
+- Python
+- OpenCV
+- Streamlit
+- Pandas
+- Computer Vision
+
+---
+
+## 👩‍💻 Author
+
+Bargavi S  
+Aspiring AI Engineer  
+
+GitHub: https://github.com/BargaviS  
+LinkedIn: https://linkedin.com/in/bargavis  
+
+---
+
+## ⭐ Acknowledgment
+
+If you found this project useful, please consider giving it a star.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
