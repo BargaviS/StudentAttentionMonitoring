@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/dashboard_preview.png" width="800">
-</p>
+
 
 # 👁️ Real-Time Student Attention Monitoring System
 
