@@ -2,24 +2,19 @@ import pandas as pd
 from datetime import datetime
 import os
 
-# Output CSV for real-time metrics
 OUTPUT_CSV = "../data/real_time_student_metrics.csv"
 
 def analyze_student(processed_csv):
-    """
-    Analyze a student's per-minute features to compute attention, engagement, confusion
-    """
+    
     df = pd.read_csv(processed_csv)
     df_metrics = []
 
-    # Track continuous attention/distraction
     continuous_attention = 0
     continuous_distraction = 0
 
     for _, row in df.iterrows():
         face = row["Face_Present"]
 
-        # Simple rule-based scoring for demo
         if face == "Yes":
             continuous_attention += 1
             continuous_distraction = 0
@@ -27,7 +22,6 @@ def analyze_student(processed_csv):
             continuous_distraction += 1
             continuous_attention = 0
 
-        # Compute engagement level
         if continuous_attention >= 20:
             engagement_level = "High"
             confusion_level = "Low"
@@ -49,7 +43,6 @@ def analyze_student(processed_csv):
             "Timestamp": datetime.now()
         })
 
-    # Save or append to output CSV
     os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
     if not os.path.exists(OUTPUT_CSV):
         pd.DataFrame(df_metrics).to_csv(OUTPUT_CSV, index=False)
@@ -60,6 +53,5 @@ def analyze_student(processed_csv):
     return OUTPUT_CSV
 
 if __name__ == "__main__":
-    # Example usage
     sample_processed = "../data/processed/S1_processed_sample.csv"
     analyze_student(sample_processed)

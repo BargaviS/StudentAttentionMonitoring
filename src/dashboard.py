@@ -5,8 +5,6 @@ from utils import log_info
 import os
 
 METRICS_CSV = "../data/real_time_student_metrics.csv"
-
-# ------------------ Configurable options ------------------
 SHOW_ATTENTION = True
 SHOW_CONFUSION = True
 
@@ -39,7 +37,6 @@ def live_dashboard(refresh_sec=5):
                     confusion = student_df["Continuous_Distraction"]
                     ax.plot(seconds, confusion, label=f"{student} Confusion", color='red')
 
-                # Highlight alerts
                 alert_indices = student_df[student_df["Continuous_Attention"]<seconds.max()*0.5].index
                 for idx in alert_indices:
                     ax.axvline(x=student_df.loc[idx, "Second"], color='red', linestyle='--', alpha=0.3)

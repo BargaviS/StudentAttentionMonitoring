@@ -2,21 +2,16 @@ import cv2
 import os
 from datetime import datetime
 
-# Folder to save raw classroom videos
 RAW_VIDEO_PATH = "../data/raw_videos"
 os.makedirs(RAW_VIDEO_PATH, exist_ok=True)
 
 def capture_video(duration_minutes=5, fps=20, resolution=(640,480)):
-    """
-    Capture live webcam video for the given duration in minutes.
-    Saves video in ../data/raw_videos with a timestamped filename.
-    """
-    cap = cv2.VideoCapture(0)  # 0 = default webcam
+  
+    cap = cv2.VideoCapture(0)  
     width, height = resolution
     cap.set(3, width)
     cap.set(4, height)
 
-    # Output file with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"{RAW_VIDEO_PATH}/class_{timestamp}.mp4"
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -35,7 +30,6 @@ def capture_video(duration_minutes=5, fps=20, resolution=(640,480)):
         out.write(frame)
         frame_count += 1
 
-        # Optional: live feed display
         cv2.imshow('Recording', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print("[INFO] Recording stopped manually.")

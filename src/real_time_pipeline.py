@@ -7,26 +7,21 @@ from datetime import datetime
 from utils import log_info, create_folder
 import os
 
-# ------------------ Paths ------------------
-RAW_VIDEO_PATH = "../data/raw_videos"       # Optional, not storing by default
-PROCESSED_PATH = "../data/processed"        # Optional
+RAW_VIDEO_PATH = "../data/raw_videos"       
+PROCESSED_PATH = "../data/processed"       
 METRICS_CSV = "../data/real_time_student_metrics.csv"
 
 create_folder(RAW_VIDEO_PATH)
 create_folder(PROCESSED_PATH)
 
-# ------------------ Mediapipe ------------------
 mp_face = mp.solutions.face_mesh
 
-# ------------------ Thresholds ------------------
-ATTENTION_ALERT_THRESHOLD = 0.5      # 50% attention
-CONFUSION_ALERT_DURATION = 2         # minutes
+ATTENTION_ALERT_THRESHOLD = 0.5     
+CONFUSION_ALERT_DURATION = 2       
 
-# ------------------ Multi-student support ------------------
-STUDENT_IDS = ["S1", "S2"]  # Example: extend for multiple students
-CAMERA_IDS = [0, 1]         # Physical webcam IDs corresponding to students
+STUDENT_IDS = ["S1", "S2"]  
+CAMERA_IDS = [0, 1]        
 
-# ------------------ Analyzer Function ------------------
 def update_metrics(student_id, features, second_number, last_metrics):
     """
     Compute attention, engagement, confusion in real-time per second
@@ -38,7 +33,6 @@ def update_metrics(student_id, features, second_number, last_metrics):
     continuous_attention = last_metrics[student_id]["Continuous_Attention"]
     continuous_distraction = last_metrics[student_id]["Continuous_Distraction"]
 
-    # Update counters
     if face_presence == "Yes":
         continuous_attention += 1
         continuous_distraction = 0
@@ -49,7 +43,6 @@ def update_metrics(student_id, features, second_number, last_metrics):
     last_metrics[student_id]["Continuous_Attention"] = continuous_attention
     last_metrics[student_id]["Continuous_Distraction"] = continuous_distraction
 
-    # Compute engagement/confusion
     if continuous_attention >= 20:
         engagement_level = "High"
         confusion_level = "Low"
@@ -60,11 +53,9 @@ def update_metrics(student_id, features, second_number, last_metrics):
         engagement_level = "Medium"
         confusion_level = "Medium"
 
-    # Alerts
     if continuous_attention/second_number < ATTENTION_ALERT_THRESHOLD:
         log_info(f"[ALERT] Student {student_id} attention low at second {second_number}")
 
-    # Append to CSV
     row = {
         "Student_ID": student_id,
         "Second": second_number,
@@ -81,7 +72,6 @@ def update_metrics(student_id, features, second_number, last_metrics):
     else:
         pd.DataFrame([row]).to_csv(METRICS_CSV, mode='a', header=False, index=False)
 
-# ------------------ Real-Time Monitoring ------------------
 def start_real_time_monitoring(duration_minutes=5, stop_event=None):
     """
     Multi-student, live frame processing pipeline with safe stop
@@ -110,11 +100,9 @@ def start_real_time_monitoring(duration_minutes=5, stop_event=None):
                 continue
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # ------------------ Face detection ------------------
             results = face_mesh_dict[student_id].process(rgb_frame)
             face_present = "Yes" if results.multi_face_landmarks else "No"
 
-            # Placeholder for head/eye/posture
             head_orientation = "Forward"
             eye_direction = "Screen"
             posture_state = "Upright"
@@ -126,32 +114,23 @@ def start_real_time_monitoring(duration_minutes=5, stop_event=None):
                 "Posture_State": posture_state
             })
 
-            # Display optional small window per student
             cv2.imshow(f"{student_id} Live Feed", frame)
 
-        # ------------------ Aggregate metrics every second ------------------
         if second_number % 1 == 0:
             for student_id in STUDENT_IDS:
                 update_metrics(student_id, features_per_student[student_id], second_number, last_metrics)
                 features_per_student[student_id] = []  # reset for next second
             second_number += 1
 
-        # Stop if 'q' pressed
         if cv2.waitKey(1) & 0xFF == ord('q'):
             log_info("Manual stop pressed.")
             stop_event.set()
             break
-
-    # Release all captures
     for cap in cap_dict.values():
         cap.release()
     cv2.destroyAllWindows()
     log_info("Monitoring completed.")
 
-# ------------------ Dashboard Thread ------------------
 def start_dashboard_thread(refresh_sec=5):
-    """
-    Start live dashboard (must run in main thread on Windows)
-    """
     from dashboard import live_dashboard
     live_dashboard(refresh_sec=refresh_sec)
