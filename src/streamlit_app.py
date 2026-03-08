@@ -8,21 +8,38 @@ import altair as alt
 
 st.set_page_config(page_title="Real-Time Student Attention", layout="wide")
 st.title("📊 Real-Time Student Attention Monitoring System")
+<<<<<<< HEAD
+=======
+
+# ---------------- Session state ----------------
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 if "monitoring" not in st.session_state:
     st.session_state.monitoring = False
 if "stop_monitor" not in st.session_state:
     st.session_state.stop_monitor = False
 if "metrics" not in st.session_state:
     st.session_state.metrics = []
+<<<<<<< HEAD
 
 METRICS_CSV = "data/real_time_student_metrics.csv"
 os.makedirs("data", exist_ok=True)
+=======
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 
+# CSV path
+METRICS_CSV = "data/real_time_student_metrics.csv"
+os.makedirs("data", exist_ok=True)
+
+# ---------------- Start / Stop Buttons ----------------
 duration = st.number_input("Class duration (minutes)", min_value=1, max_value=60, value=5)
 col1, col2 = st.columns(2)
 start_button = col1.button("Start Monitoring")
 stop_button = col2.button("Stop Monitoring")
 
+<<<<<<< HEAD
+=======
+# ---------------- Monitoring Function ----------------
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 def run_monitoring(duration_minutes):
     cap = cv2.VideoCapture(0)
     mp_face = mp.solutions.face_mesh
@@ -33,12 +50,20 @@ def run_monitoring(duration_minutes):
     second_number = 1
     start_time = time.time()
 
+<<<<<<< HEAD
 
+=======
+    # Placeholders
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
     chart_placeholder = st.empty()
     table_placeholder = st.empty()
     alert_placeholder = st.empty()
     video_placeholder = st.empty()
 
+<<<<<<< HEAD
+=======
+    # To avoid repeating sound every second
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
     low_alert_played = False
 
     while time.time() - start_time < duration_minutes * 60:
@@ -54,14 +79,26 @@ def run_monitoring(duration_minutes):
         results = face_mesh.process(rgb_frame)
         face_present = "Yes" if results.multi_face_landmarks else "No"
 
+<<<<<<< HEAD
         if face_present == "Yes":
             cont_attention += 1
             cont_distraction = 0
             low_alert_played = False  
+=======
+        # Update attention/distraction counters
+        if face_present == "Yes":
+            cont_attention += 1
+            cont_distraction = 0
+            low_alert_played = False  # Reset low alert flag
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         else:
             cont_distraction += 1
             cont_attention = 0
 
+<<<<<<< HEAD
+=======
+        # Determine engagement & alert
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         if cont_attention >= 20:
             engagement = "High"
             confusion = "Low"
@@ -78,6 +115,10 @@ def run_monitoring(duration_minutes):
             alert_color = "orange"
             alert_text = "🟡 Medium Attention"
 
+<<<<<<< HEAD
+=======
+        # Save metrics
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         st.session_state.metrics.append({
             "Second": second_number,
             "Face_Present": face_present,
@@ -86,6 +127,7 @@ def run_monitoring(duration_minutes):
             "Engagement": engagement,
             "Confusion": confusion
         })
+<<<<<<< HEAD
 
         df = pd.DataFrame(st.session_state.metrics)
 
@@ -101,18 +143,49 @@ def run_monitoring(duration_minutes):
 
         table_placeholder.table(df.tail(5))
 
+=======
+
+        # ---------------- Dashboard ----------------
+        df = pd.DataFrame(st.session_state.metrics)
+
+        # Altair colored line chart
+        if len(df) > 1:
+            df_melt = df.melt(id_vars="Second", value_vars=["Continuous_Attention", "Continuous_Distraction"])
+            color_scale = alt.Scale(domain=["Continuous_Attention", "Continuous_Distraction"], range=["green", "red"])
+            chart = alt.Chart(df_melt).mark_line(point=True).encode(
+                x="Second",
+                y="value",
+                color=alt.Color("variable", scale=color_scale, legend=alt.Legend(title="Metric"))
+            ).properties(height=300)
+            chart_placeholder.altair_chart(chart, use_container_width=True)
+
+        # Last 5 seconds table
+        table_placeholder.table(df.tail(5))
+
+        # Alert text
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         alert_placeholder.markdown(
             f"<h2 style='color:{alert_color}'>{alert_text}</h2>",
             unsafe_allow_html=True
         )
 
+<<<<<<< HEAD
         if alert_text == "🔴 Low Attention" and not low_alert_played:
             audio_file = "alert_sound.mp3"  
+=======
+        # ---------------- Sound alert for Low Attention ----------------
+        if alert_text == "🔴 Low Attention" and not low_alert_played:
+            audio_file = "alert_sound.mp3"  # Make sure this file exists
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
             if os.path.exists(audio_file):
                 audio_bytes = open(audio_file, "rb").read()
                 st.audio(audio_bytes, format="audio/mp3")
             low_alert_played = True
 
+<<<<<<< HEAD
+=======
+        # Live video
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         video_placeholder.image(rgb_frame, channels="RGB", width=400)
 
         second_number += 1
@@ -121,6 +194,11 @@ def run_monitoring(duration_minutes):
     cap.release()
     pd.DataFrame(st.session_state.metrics).to_csv(METRICS_CSV, index=False)
     st.success("Monitoring finished!")
+<<<<<<< HEAD
+=======
+
+# ---------------- Handle Buttons ----------------
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 if start_button:
     st.session_state.monitoring = True
     st.session_state.stop_monitor = False
@@ -130,6 +208,10 @@ if start_button:
 if stop_button:
     st.session_state.stop_monitor = True
 
+<<<<<<< HEAD
+=======
+# ---------------- Download CSV ----------------
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 if os.path.exists(METRICS_CSV):
     st.download_button(
         label="📥 Download Metrics CSV",

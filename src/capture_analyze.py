@@ -2,6 +2,23 @@ import cv2
 import mediapipe as mp
 import pandas as pd
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import time
+import threading
+
+METRICS_CSV = "data/real_time_student_metrics.csv"
+
+def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_callback=None):
+    """
+    Real-time attention monitoring.
+    - duration_minutes: run for N minutes
+    - stop_callback: returns True to stop
+    - update_callback: function to call with latest metrics (for Streamlit display)
+    """
+
+=======
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 import os
 import time
 
@@ -10,6 +27,7 @@ METRICS_CSV = "data/real_time_student_metrics.csv"
 
 def start_monitoring(duration_minutes=5, stop_callback=lambda: False):
 
+<<<<<<< HEAD
 =======
 import time
 import threading
@@ -25,6 +43,10 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
     """
 
 >>>>>>> 312f094 (Updated Streamlit app: real-time attention with sound alert and demo video)
+=======
+    # Initialize webcam
+>>>>>>> ac466067f3199ca78cf9de9e668330a65000594f
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -37,6 +59,18 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
     cont_distraction = 0
     second_number = 1
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    start_time = time.time()
+
+    # Initialize CSV
+    pd.DataFrame(columns=[
+        "Second", "Face_Present", "Continuous_Attention", "Continuous_Distraction"
+    ]).to_csv(METRICS_CSV, index=False)
+
+    while (time.time() - start_time) < duration_minutes * 60:
+=======
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 
     start_time = time.time()
 
@@ -44,6 +78,7 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
 
     while (time.time() - start_time) < duration_minutes * 60:
 
+<<<<<<< HEAD
        
 =======
     start_time = time.time()
@@ -55,6 +90,10 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
 
     while (time.time() - start_time) < duration_minutes * 60:
 >>>>>>> 312f094 (Updated Streamlit app: real-time attention with sound alert and demo video)
+=======
+        # Stop button support
+>>>>>>> ac466067f3199ca78cf9de9e668330a65000594f
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         if stop_callback():
             print("Monitoring stopped by user.")
             break
@@ -65,9 +104,15 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
             continue
 
 <<<<<<< HEAD
+<<<<<<< HEAD
        
 =======
 >>>>>>> 312f094 (Updated Streamlit app: real-time attention with sound alert and demo video)
+=======
+=======
+        # Convert frame
+>>>>>>> ac466067f3199ca78cf9de9e668330a65000594f
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
        
@@ -83,7 +128,13 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
             cont_attention = 0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         
+=======
+        # Prepare metrics
+=======
+        # Engagement level
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         if cont_attention >= 5:
             engagement = "High"
         elif cont_distraction >= 5:
@@ -97,9 +148,14 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
         else:
             confusion = "Low"
 
+<<<<<<< HEAD
 =======
         
 >>>>>>> 312f094 (Updated Streamlit app: real-time attention with sound alert and demo video)
+=======
+        # Save metrics
+>>>>>>> ac466067f3199ca78cf9de9e668330a65000594f
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         row = {
             "Second": second_number,
             "Face_Present": face_present,
@@ -111,7 +167,18 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         
+=======
+        # Append to CSV
+        pd.DataFrame([row]).to_csv(METRICS_CSV, mode='a', header=False, index=False)
+
+        # Callback to Streamlit for live update
+        if update_callback:
+            update_callback(row)
+=======
+        # Create folder if not exists
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
         os.makedirs("data", exist_ok=True)
 
         
@@ -126,6 +193,7 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
             )
 
         print(f"Second {second_number} | Attention: {engagement} | Confusion: {confusion}")
+<<<<<<< HEAD
 =======
         
         pd.DataFrame([row]).to_csv(METRICS_CSV, mode='a', header=False, index=False)
@@ -134,6 +202,9 @@ def start_monitoring(duration_minutes=5, stop_callback=lambda: False, update_cal
         if update_callback:
             update_callback(row)
 >>>>>>> 312f094 (Updated Streamlit app: real-time attention with sound alert and demo video)
+=======
+>>>>>>> ac466067f3199ca78cf9de9e668330a65000594f
+>>>>>>> 0e0e79ddec796e691e7bb0d75cb22213e0e4dce1
 
         second_number += 1
 
