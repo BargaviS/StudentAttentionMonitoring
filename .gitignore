@@ -1,21 +1,21 @@
 # Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# Virtual environment
+# virtual environment
 venv/
-.env/
+env/
+
+# Streamlit
+.streamlit/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Data files
-data/*.csv
-data/raw_videos/
-data/processed/
+# Data
+data/
+*.mp4
 
-# IDE files
-.vscode/
+# logs
+logs/
